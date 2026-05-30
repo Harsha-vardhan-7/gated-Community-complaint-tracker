@@ -29,4 +29,6 @@ target/
 
 # JVM crash logs
 hs_err_pid*
-replay_pid*/build/
+replay_pid*
+
+build/
