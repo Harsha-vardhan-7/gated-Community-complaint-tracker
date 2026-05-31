@@ -7,6 +7,18 @@
 <title>Dashboard</title>
 </head>
 <body>
-	<h2>Hi ${userName}, You have been successfully logged in!</h2>
+	<h1>Welcome ${userName}! </h1>
+	<form action="raiseComplaint">
+		<input name="raiseComplaint" type="submit" value="Raise the Complaint" >
+		
+	</form>
+	
+	<form action="viewComplaints">
+	<input name="View complaints" type="submit" value="View Complaints">
+	</form>
+	
+	<form action="viewResolvedComplaints">
+	<input name="View complaints" type="submit" value="View Resolved Complaints">
+	</form>
 </body>
 </html>
