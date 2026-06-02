@@ -1,10 +1,14 @@
 package com.entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,6 +34,9 @@ public class Resident {
 
 	@Column(name = "password", nullable = false)
 	private String password;
+	
+	@OneToMany(mappedBy = "resident",cascade = CascadeType.ALL)
+	private List<Complaint> complaints;
 
 	public Resident() {
 		super();
@@ -101,6 +108,14 @@ public class Resident {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Complaint> getComplaints() {
+		return complaints;
+	}
+
+	public void setComplaints(List<Complaint> complaints) {
+		this.complaints = complaints;
 	}
 
 }

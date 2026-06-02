@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet{
 			log.debug("Password validation successfull and redirecting to Dashboard");
 			req.setAttribute("userName", resident.getFirstName());
 	
-			req.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(req, resp);
+			req.getRequestDispatcher("/WEB-INF/views/residentdashboard.jsp").forward(req, resp);
 		}else {
 			log.debug("Password Validation failed, returning to login page");
 			req.setAttribute("errorMessage", "Username or Password is incorrect");

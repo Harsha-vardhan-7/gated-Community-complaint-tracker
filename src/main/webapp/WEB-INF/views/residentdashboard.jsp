@@ -20,5 +20,9 @@
 	<form action="viewResolvedComplaints">
 	<input name="View complaints" type="submit" value="View Resolved Complaints">
 	</form>
+	
+	<form action="logout">
+	<input name="logout" type="submit" value="Logout">
+	</form>
 </body>
 </html>
