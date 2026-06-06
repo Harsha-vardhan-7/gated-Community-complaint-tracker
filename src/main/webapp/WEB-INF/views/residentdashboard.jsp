@@ -8,9 +8,11 @@
 </head>
 <body>
 	<h1>Welcome ${userName}! </h1>
-	<form action="raiseComplaint">
-		<input name="raiseComplaint" type="submit" value="Raise the Complaint" >
-		
+	<form action="raiseComplaint" >
+	<input type="hidden" name="userName" value="${sessionScope.userName}">
+	<input type="hidden" name="phoneNumber" value="${sessionScope.phoneNumber}">
+	<input type="hidden" name="flatNumber" value="${sessionScope.flatNumber}">
+		<input name="raiseTheComplaint" type="submit" value="Raise the Complaint" >
 	</form>
 	
 	<form action="viewComplaints">

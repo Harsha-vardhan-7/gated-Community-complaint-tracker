@@ -45,6 +45,15 @@ public class Complaint {
 		this.status = status;
 	}
 
+	public Complaint(String category, String description, String priority, String status, Resident resident) {
+		super();
+		this.category = category;
+		this.description = description;
+		this.priority = priority;
+		this.status = status;
+		this.resident = resident;
+	}
+
 	public int getComplaintId() {
 		return complaintId;
 	}

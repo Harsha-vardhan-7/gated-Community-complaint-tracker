@@ -14,11 +14,7 @@ public class LoginDAO {
 
 	}
 
-	public Resident getResidentWithMobileNumber(String mobileNumber) {
-
-		if (mobileNumber == null || mobileNumber.isEmpty()) {
-			throw new IllegalArgumentException("Mobile number cannot be empty");
-		}
+	private Resident getResidentWithMobileNumber(String mobileNumber) {
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -27,11 +23,18 @@ public class LoginDAO {
 				Resident.class);
 
 		query.setParameter(1, mobileNumber);
-
+		
 		try {
 			return query.getSingleResult();
 		} catch (jakarta.persistence.NoResultException e) {
 			return null;
 		}
 	}
+	
+	public int getResidentId(String mobileNumber) {
+		Resident residentWithMobileNumber = getResidentWithMobileNumber(mobileNumber);
+		int residentId = residentWithMobileNumber.getResidentId();
+		return residentId;
+	}
+	
 }

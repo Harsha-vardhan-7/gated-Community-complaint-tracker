@@ -17,8 +17,8 @@ public class Resident {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "resindent_id")
-	private int resindentId;
+	@Column(name = "resident_id")
+	private int residentId;
 
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
@@ -34,8 +34,8 @@ public class Resident {
 
 	@Column(name = "password", nullable = false)
 	private String password;
-	
-	@OneToMany(mappedBy = "resident",cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "resident", cascade = CascadeType.ALL)
 	private List<Complaint> complaints;
 
 	public Resident() {
@@ -51,10 +51,17 @@ public class Resident {
 		this.password = password;
 	}
 
-	public Resident(int resindentId, String firstName, String lastName, int flatNumber, String mobileNumber,
+	public Resident(String firstName, int flatNumber, String mobileNumber) {
+		super();
+		this.firstName = firstName;
+		this.flatNumber = flatNumber;
+		this.mobileNumber = mobileNumber;
+	}
+
+	public Resident(int residentId, String firstName, String lastName, int flatNumber, String mobileNumber,
 			String password) {
 		super();
-		this.resindentId = resindentId;
+		this.residentId = residentId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.flatNumber = flatNumber;
@@ -62,12 +69,12 @@ public class Resident {
 		this.password = password;
 	}
 
-	public int getResindentId() {
-		return resindentId;
+	public int getResidentId() {
+		return residentId;
 	}
 
-	public void setResindentId(int resindentId) {
-		this.resindentId = resindentId;
+	public void setResidentId(int residentId) {
+		this.residentId = residentId;
 	}
 
 	public String getFirstName() {
