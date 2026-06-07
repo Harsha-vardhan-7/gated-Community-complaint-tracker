@@ -29,7 +29,6 @@
 				<td><a href="edit?complaintId=${complaint.complaintId}">
 						Edit </a></td>
 			</tr>
-
 		</c:forEach>
 
 	</table>

@@ -21,30 +21,30 @@ import jakarta.servlet.http.HttpSession;
 public class ViewComplaintsServlet extends HttpServlet {
 
 	private static final Logger log = LoggerFactory.getLogger(ViewComplaintsServlet.class);
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		log.trace("Entering into viewComplaintsServlet");
-		
+
 		HttpSession session = req.getSession();
-		
+
 		log.debug("Fetching the mobile number of the resident");
-		String residentMobileNumber=(String)session.getAttribute("phoneNumber");
+		String residentMobileNumber = (String) session.getAttribute("phoneNumber");
 		log.debug("Mobile number has fetched");
-		
-		LoginDAO loginDAO= new LoginDAO();
+
+		LoginDAO loginDAO = new LoginDAO();
 		log.debug("Fetching the Resident Id using the mobile Number");
 		int residentId = loginDAO.getResidentId(residentMobileNumber);
 		log.debug("Fetched the Resident Id");
-		
-		ViewComplaintsDAO viewComplaintsDAO= new ViewComplaintsDAO();
-		
-		log.debug("Started fetching the complaints of the resindet with Id: "+ residentId);
+
+		ViewComplaintsDAO viewComplaintsDAO = new ViewComplaintsDAO();
+
+		log.debug("Started fetching the complaints of the resindet with Id: " + residentId);
 		List<Complaint> allComplaints = viewComplaintsDAO.getAllComplaints(residentId);
 		log.debug("Fetching of all complaints has done");
-		
+
 		req.setAttribute("complaints", allComplaints);
-		
+
 		log.debug("Forwarding to the viewComplaints.jsp file");
 		req.getRequestDispatcher("/WEB-INF/views/viewcomplaints.jsp").forward(req, resp);
 	}
