@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 <!DOCTYPE html>
 <html>
@@ -17,6 +17,7 @@
 			<th>Category</th>
 			<th>Priority</th>
 			<th>Status</th>
+			<th>Edit C
 		</tr>
 
 		<c:forEach items="${complaints}" var="complaint">
@@ -25,8 +26,17 @@
 				<td>${complaint.category}</td>
 				<td>${complaint.priority}</td>
 				<td>${complaint.status}</td>
+				<td><a href="edit?complaintId=${complaint.complaintId}">
+						Edit </a></td>
 			</tr>
+
 		</c:forEach>
+
 	</table>
+
+	<form action="cancel">
+		<input type="hidden" name="userName" value="${sessionScope.userName}">
+		<input name="cancel" type="submit" value="Cancel">
+	</form>
 </body>
 </html>
