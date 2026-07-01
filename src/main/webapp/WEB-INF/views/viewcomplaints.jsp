@@ -17,7 +17,7 @@
 			<th>Category</th>
 			<th>Priority</th>
 			<th>Status</th>
-			<th>Edit C
+			<th>Edit </th>
 		</tr>
 
 		<c:forEach items="${complaints}" var="complaint">
