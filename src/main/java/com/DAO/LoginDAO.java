@@ -7,6 +7,8 @@ import org.hibernate.query.SelectionQuery;
 import com.entity.Resident;
 import com.util.HibernateUtil;
 
+import jakarta.persistence.NoResultException;
+
 public class LoginDAO {
 
 	public Resident getResidentDetails(String mobileNumber) {
@@ -26,7 +28,7 @@ public class LoginDAO {
 		
 		try {
 			return query.getSingleResult();
-		} catch (jakarta.persistence.NoResultException e) {
+		} catch (NoResultException e) {
 			return null;
 		}
 	}

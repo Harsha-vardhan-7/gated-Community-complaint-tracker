@@ -2,9 +2,13 @@ package com.entity;
 
 import java.util.List;
 
+import com.enums.RoleEnum;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,6 +38,10 @@ public class Resident {
 
 	@Column(name = "password", nullable = false)
 	private String password;
+
+	@Column(name = "role", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private RoleEnum role;
 
 	@OneToMany(mappedBy = "resident", cascade = CascadeType.ALL)
 	private List<Complaint> complaints;
@@ -67,6 +75,14 @@ public class Resident {
 		this.flatNumber = flatNumber;
 		this.mobileNumber = mobileNumber;
 		this.password = password;
+	}
+
+	public RoleEnum getRole() {
+		return role;
+	}
+
+	public void setRole(RoleEnum role) {
+		this.role = role;
 	}
 
 	public int getResidentId() {

@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.DAO.LoginDAO;
 import com.DAO.ResidentDAO;
 import com.entity.Resident;
+import com.enums.RoleEnum;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -27,7 +28,7 @@ public class SignUpServlet extends HttpServlet {
 		String flatNum = req.getParameter("flatnumber");
 		int flatNo;
 		if (flatNum == null || flatNum.trim().isEmpty()) {
-			req.setAttribute("firstNameerrorMessage", "Flat Number is Mandatory, Please Enter");
+			req.setAttribute("FlatNoerrorMessage", "Flat Number is Mandatory, Please Enter");
 			req.getRequestDispatcher("index.jsp").forward(req, resp);
 			return;
 		} else {
@@ -42,6 +43,8 @@ public class SignUpServlet extends HttpServlet {
 
 		String mobileNo = req.getParameter("mobile");
 		String password = req.getParameter("password");
+		String roleStr = req.getParameter("role");
+		String adminCode = req.getParameter("admincode");
 
 		if (firstName == null || firstName.trim().isEmpty()) {
 			req.setAttribute("firstNameErrorMessage", "First Name is Mandatory, Please Enter");
@@ -62,6 +65,28 @@ public class SignUpServlet extends HttpServlet {
 			req.setAttribute("passworErrorMessage", "Password is Mandatory, Please Enter");
 			req.getRequestDispatcher("index.jsp").forward(req, resp);
 			return;
+		}
+		if (roleStr == null || roleStr.trim().isEmpty()) {
+			req.setAttribute("roleErrorMessage", "Role is Mandatory, Please Select");
+			req.getRequestDispatcher("index.jsp").forward(req, resp);
+			return;
+		}
+
+		// Validate admin authentication code if role is ADMIN
+		if (roleStr.equalsIgnoreCase("ADMIN")) {
+			if (adminCode == null || adminCode.trim().isEmpty()) {
+				req.setAttribute("adminCodeErrorMessage", "Admin Authentication Code is Mandatory");
+				req.getRequestDispatcher("index.jsp").forward(req, resp);
+				return;
+			}
+
+			// Verify admin code (you can change this to your desired code)
+			final String VALID_ADMIN_CODE = "ADMIN@2024";
+			if (!adminCode.equals(VALID_ADMIN_CODE)) {
+				req.setAttribute("adminCodeErrorMessage", "Invalid Admin Authentication Code");
+				req.getRequestDispatcher("index.jsp").forward(req, resp);
+				return;
+			}
 		}
 
 		ResidentDAO resident = new ResidentDAO();
@@ -85,16 +110,19 @@ public class SignUpServlet extends HttpServlet {
 			return;
 		}
 
+		if (residentDetails == null) {
+			resident.saveResident(firstName, lastName, flatNo, mobileNo, password, roleStr);
+
+			req.setAttribute("firstName", firstName);
+			req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
+		}
+
 		if (mobileNo.equalsIgnoreCase(residentDetails.getMobileNumber())) {
 			req.setAttribute("errorMessage", "Resident is already registered. Please log in to continue.");
 			req.getRequestDispatcher("index.jsp").forward(req, resp);
 			return;
 		}
 
-		resident.saveResident(firstName, lastName, flatNo, mobileNo, password);
-
-		req.setAttribute("firstName", firstName);
-		req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
 	}
 
 }
