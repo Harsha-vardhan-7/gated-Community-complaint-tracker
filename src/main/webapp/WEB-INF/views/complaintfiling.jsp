@@ -11,8 +11,10 @@
 	Name: <br><input name="name" type="text" value="${sessionScope.userName}"><br><br>
 	Mobile Number:<br> <input name="phoneNumber" type="text" value="${sessionScope.phoneNumber}"><br><br>
 	Flat Number: <br><input name="flatNo" type="text" value="${sessionScope.flatNumber}"><br><br>
-	Category: <br><input name="category" type="text" placeholder="Enter your Complaint category here"><br><br>
-	Description of Complaint:<br> <textarea id="description" name="description" rows="5" cols="40" placeholder="Enter full details here"></textarea><br><br>
+	Category: <br><input name="category" type="text" placeholder="Enter your Complaint category here"><br>
+	<p style="color: red;">${categoryErrorMessage}</p>
+	Description of Complaint:<br> <textarea id="description" name="description" rows="5" cols="40" placeholder="Enter full details here"></textarea><br>
+	<p style="color: red;">${descriptionErrorMessage}</p>
 	
 	<label for="priority">Choose a priority:</label><br>
     <select name="priority" id="priority">

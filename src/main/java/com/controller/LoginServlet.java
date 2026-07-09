@@ -64,7 +64,7 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("phoneNumber", resident.getMobileNumber());
 
 			session.setAttribute("flatNumber", resident.getFlatNumber());
-
+//here write role validation
 			req.getRequestDispatcher("/WEB-INF/views/residentdashboard.jsp").forward(req, resp);
 		} else {
 			log.debug("Password Validation failed, returning to login page");

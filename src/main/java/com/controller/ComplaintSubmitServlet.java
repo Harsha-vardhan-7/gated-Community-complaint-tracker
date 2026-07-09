@@ -2,7 +2,7 @@ package com.controller;
 
 import java.io.IOException;
 
-import com.DAO.ComplaintSubmitDAO;
+import com.DAO.ComplaintDAO;
 import com.DAO.LoginDAO;
 import com.entity.Complaint;
 import com.entity.Resident;
@@ -21,17 +21,33 @@ public class ComplaintSubmitServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
 
+		boolean hasError = false;
+
 		String phoneNumber = (String) session.getAttribute("phoneNumber");
 
 		String category = req.getParameter("category");
+		if (category == null || category.isBlank()) {
+			req.setAttribute("categoryErrorMessage", "Category cannot be null or Empty");
+			hasError = true;
+		}
+
 		String description = req.getParameter("description");
+		if (description == null || description.isBlank()) {
+			req.setAttribute("descriptionErrorMessage", "Description cannot be null or Empty");
+			hasError = true;
+		}
+
+		if (hasError) {
+			req.getRequestDispatcher("/WEB-INF/views/complaintfiling.jsp").forward(req, resp);
+			return;
+		}
 		String priority = req.getParameter("priority");
 
 		LoginDAO loginDAO = new LoginDAO();
 
 		Resident residentDetails = loginDAO.getResidentDetails(phoneNumber);
 
-		ComplaintSubmitDAO compSubDAO = new ComplaintSubmitDAO();
+		ComplaintDAO complaintDAO = new ComplaintDAO();
 
 		Complaint comp = new Complaint();
 
@@ -41,11 +57,11 @@ public class ComplaintSubmitServlet extends HttpServlet {
 		comp.setStatus("Pending");
 		comp.setResident(residentDetails);
 
-		compSubDAO.saveComplaint(comp);
+		complaintDAO.saveComplaint(comp);
 
 		req.setAttribute("complaintId", comp.getComplaintId());
 
-		req.getRequestDispatcher("/WEB-INF/views/complaintsuceess.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/views/complaintsuccess.jsp").forward(req, resp);
 	}
 
 }

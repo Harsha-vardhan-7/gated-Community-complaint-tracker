@@ -11,8 +11,10 @@
 	Name: <br><input name="name" type="text" value="${sessionScope.userName}"><br><br>
 	Mobile Number:<br> <input name="phoneNumber" type="text" value="${sessionScope.phoneNumber}"><br><br>
 	Flat Number: <br><input name="flatNo" type="text" value="${sessionScope.flatNumber}"><br><br>
-	Category: <br><input name="category" type="text" value="${Complaint.category}"><br><br>
-	Description of Complaint:<br> <textarea id="description" name="description" rows="5" cols="40">${Complaint.description}</textarea><br><br>
+	Category: <br><input name="category" type="text" value="${Complaint.category}"><br>
+	<p style="color: red;">${categoryErrorMessage}</p>
+	Description of Complaint:<br> <textarea id="description" name="description" rows="5" cols="40">${Complaint.description}</textarea><br>
+	<p style="color: red;">${categoryErrorMessage}</p>
 	
 	<label for="priority">Choose a priority:</label><br>
     <select name="priority" id="priority">
@@ -38,6 +40,8 @@
     
     <input type="hidden" name="complaintId" value="${Complaint.complaintId}">
 </form>
+
+
 
 <form action="viewComplaints">
 <%-- <input type="hidden" name="userName" value="${sessionScope.userName}"> --%>

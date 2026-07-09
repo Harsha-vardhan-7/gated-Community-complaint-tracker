@@ -15,7 +15,7 @@
 		<input name="raiseTheComplaint" type="submit" value="Raise the Complaint" >
 	</form>
 	
-	<form action="viewComplaints">
+	<form action="residentViewComplaints">
 	<input name="View complaints" type="submit" value="View Complaints">
 	</form>
 	
