@@ -5,6 +5,41 @@
 <head>
 <meta charset="UTF-8">
 <title>Sign Up</title>
+<style>
+	body {
+		font-family: Arial, sans-serif;
+		margin: 20px;
+	}
+	form {
+		max-width: 600px;
+		background: #fff;
+		padding: 20px;
+		border-radius: 6px;
+		box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+	}
+	input[type="text"], input[type="password"], select {
+		width: 100%;
+		padding: 8px 10px;
+		margin: 6px 0 12px 0;
+		box-sizing: border-box;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+	}
+	input[type="submit"], .btn {
+		padding: 10px 18px;
+		background-color: #4CAF50;
+		color: white;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+	input[type="submit"]:hover, .btn:hover {
+		background-color: #45a049;
+	}
+	p.error {
+		color: red;
+	}
+</style>
 <script type="text/javascript">
 	function toggleAdminCode() {
 		var role = document.getElementsByName("role")[0].value;
@@ -67,7 +102,7 @@
 			<p style="color: red;">${adminCodeErrorMessage}</p>
 		</div>
 
-		<input name="signup" type="submit" value="Sign Up">
+		<input name="signup" type="submit" value="Sign Up" class="btn">
 		<p style="color: red;">${errorMessage}</p>
 
 	</form>

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.DAO.LoginDAO;
 import com.entity.Resident;
+import com.enums.RoleEnum;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,11 +25,11 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		log.trace("Entering into LoginServlet");
 
-		String userName = req.getParameter("username");
+		String mobileNumber = req.getParameter("username");
 		String password = req.getParameter("password");
 
-		if (userName == null && password == null) {
-			req.setAttribute("emptyFields", "Please Enter Username and Password");
+		if (mobileNumber == null || mobileNumber.isBlank() || password == null || password.isBlank()) {
+			req.setAttribute("emptyFields", "Please enter mobile number and password.");
 			req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
 			return;
 		}
@@ -38,7 +39,7 @@ public class LoginServlet extends HttpServlet {
 
 		log.trace("LoginDAO object has been created");
 
-		Resident resident = login.getResidentDetails(userName);
+		Resident resident = login.getResidentDetails(mobileNumber);
 
 		log.trace("Got Resident details from LoginDAO");
 
@@ -53,7 +54,7 @@ public class LoginServlet extends HttpServlet {
 
 		log.debug("Password Validation started");
 
-		if (password != null && password.equals(resPassword)) {
+		if (password.equals(resPassword)) {
 			log.debug("Password validation successfull and redirecting to Dashboard");
 			HttpSession session = req.getSession();
 
@@ -64,8 +65,20 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("phoneNumber", resident.getMobileNumber());
 
 			session.setAttribute("flatNumber", resident.getFlatNumber());
-//here write role validation
-			req.getRequestDispatcher("/WEB-INF/views/residentdashboard.jsp").forward(req, resp);
+
+			session.setAttribute("role", resident.getRole());
+
+			if (resident.getRole() == RoleEnum.RESIDENT) {
+				req.getRequestDispatcher("/WEB-INF/views/residentdashboard.jsp").forward(req, resp);
+				return;
+			} else if (resident.getRole() == RoleEnum.ADMIN) {
+				req.getRequestDispatcher("/WEB-INF/views/admindashboard.jsp").forward(req, resp);
+				return;
+			} else {
+				req.setAttribute("roleErrorMessage", "Invalid user role");
+				req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
+			}
+
 		} else {
 			log.debug("Password Validation failed, returning to login page");
 			req.setAttribute("errorMessage", "Username or Password is incorrect");

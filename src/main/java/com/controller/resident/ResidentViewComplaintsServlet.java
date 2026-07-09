@@ -1,4 +1,4 @@
-package com.controller;
+package com.controller.resident;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,13 +27,14 @@ public class ResidentViewComplaintsServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		log.trace("Entering into viewComplaintsServlet");
+		log.trace("Entering ResidentViewComplaintsServlet");
 
 		HttpSession session = req.getSession(false);
 
 		if (session == null) {
-		    resp.sendRedirect("login");
-		    return;
+			log.warn("No active session found. Redirecting user to login page.");
+			resp.sendRedirect("login");
+			return;
 		}
 
 		log.debug("Fetching the mobile number of the resident");
@@ -42,7 +43,9 @@ public class ResidentViewComplaintsServlet extends HttpServlet {
 
 		LoginDAO loginDAO = new LoginDAO();
 		Resident resident = loginDAO.getResidentDetails(residentMobileNumber);
+
 		if (resident == null) {
+			log.warn("No resident found for mobile number: {}. Redirecting to login page.", residentMobileNumber);
 			resp.sendRedirect("login");
 			return;
 		}
@@ -52,20 +55,18 @@ public class ResidentViewComplaintsServlet extends HttpServlet {
 		log.debug("Fetched the Resident Id");
 
 		ComplaintDAO complaintDAO = new ComplaintDAO();
-		List<Complaint> allComplaints = new ArrayList<>();
 
-		if (resident != null && resident.getRole() == RoleEnum.ADMIN) {
-			allComplaints = complaintDAO.getAllComplaints();
+		log.debug("Started fetching the complaints of the resident with Id: " + residentId);
+		List<Complaint> residentComplaints = complaintDAO.getComplaintsByResidentId(residentId);
+		log.debug("Fetching of all complaints has done");
 
-		} else if (resident != null && resident.getRole() == RoleEnum.RESIDENT) {
-			log.debug("Started fetching the complaints of the resindet with Id: " + residentId);
-			allComplaints = complaintDAO.getAllComplaints(residentId);
-			log.debug("Fetching of all complaints has done");
+		if(residentComplaints.isEmpty()) {
+			req.setAttribute("noComplaintsError", "No Complaints present");
 		}
+		
+		req.setAttribute("complaints", residentComplaints);
 
-		req.setAttribute("complaints", allComplaints);
-
-		log.debug("Forwarding to the viewComplaints.jsp file");
+		log.debug("Forwarding to the residentviewcomplaints.jsp file");
 		req.getRequestDispatcher("/WEB-INF/views/residentviewcomplaints.jsp").forward(req, resp);
 	}
 }

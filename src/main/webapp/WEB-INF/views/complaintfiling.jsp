@@ -27,7 +27,6 @@
 </form>
 
 <form action="cancel">
-<input type="hidden" name="userName" value="${sessionScope.userName}">
 	<input name="cancel" type="submit" value="Cancel">
 </form>
 </body>

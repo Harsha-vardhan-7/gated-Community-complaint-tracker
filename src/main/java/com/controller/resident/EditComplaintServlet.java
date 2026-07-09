@@ -1,4 +1,4 @@
-package com.controller;
+package com.controller.resident;
 
 import java.io.IOException;
 

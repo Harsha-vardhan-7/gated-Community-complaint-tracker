@@ -53,7 +53,7 @@ public class ComplaintDAO {
 
 	}
 
-	public List<Complaint> getAllComplaints(int residentId) {
+	public List<Complaint> getComplaintsByResidentId(int residentId) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
 		Session session = sessionFactory.openSession();
@@ -68,20 +68,20 @@ public class ComplaintDAO {
 
 		return complaints;
 	}
-	
-	public List<Complaint> getAllComplaints(){
+
+	public List<Complaint> getAllComplaints() {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
 		Session session = sessionFactory.openSession();
-		
+
 		List<Complaint> complaints = session
 
-	            .createQuery("FROM Complaint", Complaint.class)
+				.createQuery("FROM Complaint", Complaint.class)
 
-	            .list();
+				.list();
 
-	    session.close();
+		session.close();
 
-	    return complaints;
+		return complaints;
 	}
 }

@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1> Hi ${userName}, Your Complaint has been successfully updated with Complaint Id: ${complaintId}</h1>
-<form action="returntohome">
+<form action="cancel">
 <input type="hidden" name="userName" value="${sessionScope.userName}">
 	<input name="cancel" type="submit" value="Return to Home">
 </form>

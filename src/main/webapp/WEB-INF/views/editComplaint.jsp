@@ -43,7 +43,7 @@
 
 
 
-<form action="viewComplaints">
+<form action="residentViewComplaints">
 <%-- <input type="hidden" name="userName" value="${sessionScope.userName}"> --%>
 	<input name="cancel" type="submit" value="Cancel">
 </form>

@@ -12,12 +12,16 @@
 		<input name="raiseTheComplaint" type="submit" value="Raise Complaint" >
 	</form>
 	
-	<form action="residentViewComplaints">
-	<input name="View Complaints" type="submit" value="View Complaints">
+	<form action="adminViewComplaints">
+	<input name="View complaints" type="submit" value="View All Complaints">
 	</form>
 	
-	<form action="viewResidentResolvedComplaints">
-	<input name="View Resolved Complaints" type="submit" value="View Resolved Complaints">
+	<form action="viewadminResolvedComplaints">
+	<input name="View Resolved complaints" type="submit" value="View Resolved Complaints">
+	</form>
+	
+	<form action="viewadminPendingComplaints">
+	<input name="View Pending complaints" type="submit" value="View Pending Complaints">
 	</form>
 	
 	<form action="logout">

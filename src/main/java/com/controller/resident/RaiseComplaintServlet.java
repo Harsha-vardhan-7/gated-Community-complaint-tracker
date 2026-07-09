@@ -1,4 +1,4 @@
-package com.controller;
+package com.controller.resident;
 
 import java.io.IOException;
 
@@ -23,6 +23,13 @@ public class RaiseComplaintServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		log.debug("Entered into RaiseComplaintServlet");
 
+		HttpSession session = req.getSession(false);
+
+		if (session == null) {
+		    resp.sendRedirect("login");
+		    return;
+		}
+		
 		req.getRequestDispatcher("/WEB-INF/views/complaintfiling.jsp").forward(req, resp);
 		log.debug("RaiseComplaintServlet executed");
 	}

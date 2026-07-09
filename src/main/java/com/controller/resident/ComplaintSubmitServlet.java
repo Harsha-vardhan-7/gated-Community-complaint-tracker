@@ -1,4 +1,4 @@
-package com.controller;
+package com.controller.resident;
 
 import java.io.IOException;
 
@@ -14,21 +14,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/updateComplaint")
-public class UpdateComplaintServlet extends HttpServlet {
+@WebServlet("/complaintsubmit")
+public class ComplaintSubmitServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
-		
-		boolean hasError=false;
-		
-//		String complaintIdStr = req.getParameter("complaintId");
-//		System.out.println("Complaint ID = " + complaintIdStr);
-//
-//		int complaintId = Integer.parseInt(complaintIdStr);
-		
-		int complaintId = Integer.parseInt(req.getParameter("complaintId"));
+
+		boolean hasError = false;
 
 		String phoneNumber = (String) session.getAttribute("phoneNumber");
 
@@ -37,18 +30,17 @@ public class UpdateComplaintServlet extends HttpServlet {
 			req.setAttribute("categoryErrorMessage", "Category cannot be null or Empty");
 			hasError = true;
 		}
-		
+
 		String description = req.getParameter("description");
 		if (description == null || description.isBlank()) {
 			req.setAttribute("descriptionErrorMessage", "Description cannot be null or Empty");
 			hasError = true;
 		}
-		
+
 		if (hasError) {
-			req.getRequestDispatcher("/WEB-INF/views/editComplaint.jsp").forward(req, resp);
+			req.getRequestDispatcher("/WEB-INF/views/complaintfiling.jsp").forward(req, resp);
 			return;
 		}
-		
 		String priority = req.getParameter("priority");
 
 		LoginDAO loginDAO = new LoginDAO();
@@ -57,16 +49,19 @@ public class UpdateComplaintServlet extends HttpServlet {
 
 		ComplaintDAO complaintDAO = new ComplaintDAO();
 
-		Complaint existingComplaint = complaintDAO.getComplaintWithId(complaintId);
+		Complaint comp = new Complaint();
 
-		existingComplaint.setCategory(category);
-		existingComplaint.setDescription(description);
-		existingComplaint.setPriority(priority);
+		comp.setCategory(category);
+		comp.setDescription(description);
+		comp.setPriority(priority);
+		comp.setStatus("Pending");
+		comp.setResident(residentDetails);
 
-		complaintDAO.updateComplaint(existingComplaint);
+		complaintDAO.saveComplaint(comp);
 
-		req.setAttribute("complaintId", complaintId);
+		req.setAttribute("complaintId", comp.getComplaintId());
 
-		req.getRequestDispatcher("/WEB-INF/views/complaintupdatesuccess.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/views/complaintsuccess.jsp").forward(req, resp);
 	}
+
 }
