@@ -6,38 +6,89 @@
 <meta charset="UTF-8">
 <title>Sign Up</title>
 <style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
 	body {
-		font-family: Arial, sans-serif;
-		margin: 20px;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		min-height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 20px;
 	}
 	form {
-		max-width: 600px;
-		background: #fff;
-		padding: 20px;
-		border-radius: 6px;
-		box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+		max-width: 450px;
+		width: 100%;
+		background: #ffffff;
+		padding: 40px;
+		border-radius: 10px;
+		box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+	}
+	form h2 {
+		color: #333;
+		margin-bottom: 30px;
+		text-align: center;
+		font-size: 28px;
+	}
+	label {
+		display: block;
+		margin-bottom: 8px;
+		color: #555;
+		font-weight: 600;
+		font-size: 14px;
 	}
 	input[type="text"], input[type="password"], select {
-		width: 100%;
-		padding: 8px 10px;
-		margin: 6px 0 12px 0;
-		box-sizing: border-box;
-		border: 1px solid #ccc;
-		border-radius: 4px;
+		width: 320px;
+		max-width: 100%;
+		padding: 12px 15px;
+		margin-bottom: 20px;
+		border: 2px solid #e0e0e0;
+		border-radius: 6px;
+		font-size: 14px;
+		transition: border-color 0.3s, box-shadow 0.3s;
+	}
+	input[type="text"]:focus, input[type="password"]:focus, select:focus {
+		outline: none;
+		border-color: #667eea;
+		box-shadow: 0 0 8px rgba(102, 126, 234, 0.2);
 	}
 	input[type="submit"], .btn {
-		padding: 10px 18px;
-		background-color: #4CAF50;
+		width: 100%;
+		padding: 12px 20px;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 		color: white;
 		border: none;
-		border-radius: 4px;
+		border-radius: 6px;
 		cursor: pointer;
+		font-size: 16px;
+		font-weight: 600;
+		transition: transform 0.2s, box-shadow 0.2s;
+		margin-top: 10px;
 	}
 	input[type="submit"]:hover, .btn:hover {
-		background-color: #45a049;
+		transform: translateY(-2px);
+		box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 	}
-	p.error {
-		color: red;
+	p {
+		margin: 15px 0;
+		font-size: 13px;
+	}
+	p.error, p[style*="color: red"] {
+		color: #e74c3c;
+		margin-top: -15px;
+		margin-bottom: 15px;
+	}
+	a {
+		color: #667eea;
+		text-decoration: none;
+		font-weight: 600;
+	}
+	a:hover {
+		text-decoration: underline;
 	}
 </style>
 <script type="text/javascript">
@@ -60,56 +111,47 @@
 </head>
 <body>
 	<form action="signup" method="post">
-		First Name: <input type="text" name="firstname"
-			placeholder="Enter First Name here" value="${param.firstname}">
-		<br>
+		<h2>Create Account</h2>
+		
+		<label>First Name</label>
+		<input type="text" name="firstname" placeholder="Enter First Name" value="${param.firstname}">
 		<p style="color: red;">${firstNameErrorMessage}</p>
 
-		Last Name: <input type="text" name="lastname"
-			placeholder="Enter Last Name here" value="${param.lastname}"><br>
-		<br>
+		<label>Last Name</label>
+		<input type="text" name="lastname" placeholder="Enter Last Name" value="${param.lastname}">
 		<p style="color: red;">${lastNameErrorMessage}</p>
 
-		Flat Number: <input type="text" name="flatnumber"
-			placeholder="Enter Your Flat Number here" value="${param.flatnumber}"><br>
+		<label>Flat Number</label>
+		<input type="text" name="flatnumber" placeholder="Enter Your Flat Number" value="${param.flatnumber}">
 		<p style="color: red;">${FlatNoerrorMessage}</p>
 		<p style="color: red;">${flatParseErrorMessage}</p>
 
-		Mobile Number: <input type="text" name="mobile"
-			placeholder="Enter Your Mobile Number here" value="${param.mobile}"><br>
-		<br>
+		<label>Mobile Number</label>
+		<input type="text" name="mobile" placeholder="Enter Your Mobile Number" value="${param.mobile}">
 		<p style="color: red;">${mobileNoErrorMessage}</p>
 
-		Password: <input type="text" name="password"
-			placeholder="Enter Your Password here" value="${param.password}"><br>
-		<br>
+		<label>Password</label>
+		<input type="text" name="password" placeholder="Enter Your Password" value="${param.password}">
 		<p style="color: red;">${passworErrorMessage}</p>
 
-		Role: <select name="role" onchange="toggleAdminCode()">
+		<label>Role</label>
+		<select name="role" onchange="toggleAdminCode()">
 			<option value="">-- Select Role --</option>
 			<option value="ADMIN" ${param.role == 'ADMIN' ? 'selected' : ''}>Admin</option>
-			<option value="RESIDENT"
-				${param.role == 'RESIDENT' ? 'selected' : ''}>Resident</option>
-		</select><br>
-		<br>
+			<option value="RESIDENT" ${param.role == 'RESIDENT' ? 'selected' : ''}>Resident</option>
+		</select>
 		<p style="color: red;">${roleErrorMessage}</p>
 
 		<div id="adminCodeField" style="display: none;">
-			Admin Authentication Code: <input type="text" name="admincode"
-				placeholder="Enter Admin Authentication Code"
-				value="${param.admincode}"><br>
-			<br>
+			<label>Admin Authentication Code</label>
+			<input type="text" name="admincode" placeholder="Enter Admin Authentication Code" value="${param.admincode}">
 			<p style="color: red;">${adminCodeErrorMessage}</p>
 		</div>
 
 		<input name="signup" type="submit" value="Sign Up" class="btn">
 		<p style="color: red;">${errorMessage}</p>
-
+		
+		<p style="text-align: center; margin-top: 20px;">Already have an Account? <a href="loginredirect">Login</a></p>
 	</form>
-
-
-	<p>
-		Already have the Account? please click here to <a href="loginredirect">
-			Login </a>
 </body>
 </html>

@@ -1,0 +1,101 @@
+/* Shared design system for Complaint Management System */
+:root{
+  --bg:#f5f7fa;
+  --surface:#ffffff;
+  --muted:#6b7280;
+  --primary:#2563eb; /* professional blue */
+  --primary-600:#1e40af;
+  --accent:#10b981; /* success */
+  --warning:#f59e0b; /* pending */
+  --danger:#ef4444;
+  --radius:8px;
+  --shadow: 0 6px 18px rgba(16,24,40,0.08);
+  --text:#0f172a;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.container{max-width:1100px;margin:32px auto;padding:0 18px}
+.app-header{display:flex;align-items:center;justify-content:space-between;background:transparent;padding:12px 0}
+.app-brand{display:flex;align-items:center;gap:12px}
+.app-brand .logo{width:44px;height:44px;background:var(--primary);border-radius:10px;display:inline-flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:var(--shadow)}
+.app-title{font-size:18px;font-weight:700}
+.app-meta{font-size:14px;color:var(--muted)}
+.header-actions{display:flex;align-items:center;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+.btn-primary{background:linear-gradient(180deg,var(--primary),var(--primary-600));color:white;box-shadow:0 6px 18px rgba(37,99,235,0.18)}
+.btn-secondary{background:transparent;border:1px solid #e6e9ef;color:var(--text)}
+.btn-logout{background:linear-gradient(180deg,#fb7185,#ef4444);color:white}
+
+/* Dashboard grid */
+.action-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:16px}
+.card{background:var(--surface);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.card h3{margin:0;font-size:16px}
+.card p{margin:0;color:var(--muted);font-size:14px}
+
+/* Buttons inside cards */
+.card .card-actions{display:flex;gap:10px;flex-wrap:wrap}
+.card .card-actions .btn{padding:10px 12px;border-radius:8px}
+
+/* Forms */
+.form-row{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+label{font-size:13px;color:var(--muted);font-weight:600}
+input[type="text"],input[type="password"],select,textarea{width:100%;padding:10px 12px;border:1px solid #e6e9ef;border-radius:8px;background:transparent;font-size:14px}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--primary);box-shadow:0 8px 20px rgba(37,99,235,0.06)}
+input[type="submit"].btn-primary{padding:12px 16px}
+.form-card{background:var(--surface);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.helper{font-size:13px;color:#ef4444}
+
+/* Tables */
+.table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+.table thead{background:#f3f4f6}
+.table th,.table td{padding:12px 14px;text-align:left;font-size:14px;border-bottom:1px solid #eef2f7}
+.table tbody tr:hover{background:#fbfdff}
+.table .actions{display:flex;gap:8px;align-items:center}
+.link-btn{background:transparent;border:1px solid #e6e9ef;padding:8px 10px;border-radius:8px;color:var(--primary);text-decoration:none}
+
+/* Status select specifically used in admin table - ensure visible and usable */
+.status-select{
+  width:auto;
+  min-width:160px;
+  padding:8px 10px;
+  border-radius:8px;
+  border:1px solid #e6e9ef;
+  background:#fff;
+  font-size:14px;
+}
+.status-select:focus{box-shadow:0 8px 20px rgba(37,99,235,0.06);border-color:var(--primary)}
+
+/* Status badges */
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px}
+.badge.pending{background:rgba(245,158,11,0.12);color:var(--warning)}
+.badge.inprogress{background:rgba(37,99,235,0.08);color:var(--primary)}
+.badge.resolved{background:rgba(16,185,129,0.08);color:var(--accent)}
+.badge.closed{background:rgba(15,23,42,0.06);color:#374151}
+
+/* Responsive tweaks */
+@media (max-width:640px){
+  .app-header{flex-direction:column;align-items:flex-start;gap:8px}
+  .action-grid{grid-template-columns:1fr}
+  .table th,.table td{padding:10px}
+}
+
+/* Small utilities */
+.text-muted{color:var(--muted)}
+.center{text-align:center}
+.mt-8{margin-top:8px}
+.mb-8{margin-bottom:8px}
+
+/* Expandable submenu styles (keeps previous behavior) */
+.expand-btn{background:none;border:none;padding:0;color:var(--primary);font-weight:700;cursor:pointer}
+.submenu{display:none;margin-top:12px}
+.submenu.show{display:flex;flex-direction:column;gap:8px}
+.submenu .btn{width:100%;justify-content:flex-start}

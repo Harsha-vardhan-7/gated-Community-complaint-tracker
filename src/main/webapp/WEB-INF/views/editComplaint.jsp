@@ -5,47 +5,67 @@
 <head>
 <meta charset="UTF-8">
 <title>Edit Complaint</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
 </head>
 <body>
-	<form action="updateComplaint" method="post">
-	Name: <br><input name="name" type="text" value="${sessionScope.userName}"><br><br>
-	Mobile Number:<br> <input name="phoneNumber" type="text" value="${sessionScope.phoneNumber}"><br><br>
-	Flat Number: <br><input name="flatNo" type="text" value="${sessionScope.flatNumber}"><br><br>
-	Category: <br><input name="category" type="text" value="${Complaint.category}"><br>
-	<p style="color: red;">${categoryErrorMessage}</p>
-	Description of Complaint:<br> <textarea id="description" name="description" rows="5" cols="40">${Complaint.description}</textarea><br>
-	<p style="color: red;">${categoryErrorMessage}</p>
-	
-	<label for="priority">Choose a priority:</label><br>
-    <select name="priority" id="priority">
+    <div class="container">
+        <header class="app-header">
+            <div class="app-brand">
+                <div class="logo">RH</div>
+                <div>
+                    <div class="app-title">Edit Complaint</div>
+                    <div class="app-meta">${sessionScope.userName}</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <form action="residentViewComplaints"><input class="btn btn-secondary" type="submit" name="cancel" value="Back"></form>
+            </div>
+        </header>
 
-    <option value="high"
-        ${Complaint.priority == 'high' ? 'selected' : ''}>
-        High
-    </option>
+        <div class="form-card">
+            <form action="updateComplaint" method="post">
+                <div class="form-row">
+                    <label>Name</label>
+                    <input name="name" type="text" value="${sessionScope.userName}">
+                </div>
 
-    <option value="medium"
-        ${Complaint.priority == 'medium' ? 'selected' : ''}>
-        Medium
-    </option>
+                <div class="form-row">
+                    <label>Mobile Number</label>
+                    <input name="phoneNumber" type="text" value="${sessionScope.phoneNumber}">
+                </div>
 
-    <option value="low"
-        ${Complaint.priority == 'low' ? 'selected' : ''}>
-        Low
-    </option>
+                <div class="form-row">
+                    <label>Flat Number</label>
+                    <input name="flatNo" type="text" value="${sessionScope.flatNumber}">
+                </div>
 
-</select><br><br>
-    
-    <input name="submitComplaint" type="submit" value="Submit">
-    
-    <input type="hidden" name="complaintId" value="${Complaint.complaintId}">
-</form>
+                <div class="form-row">
+                    <label>Category</label>
+                    <input name="category" type="text" value="${Complaint.category}">
+                    <p class="helper">${categoryErrorMessage}</p>
+                </div>
 
+                <div class="form-row">
+                    <label>Description of Complaint</label>
+                    <textarea id="description" name="description" rows="5">${Complaint.description}</textarea>
+                    <p class="helper">${categoryErrorMessage}</p>
+                </div>
 
+                <div class="form-row">
+                    <label for="priority">Choose a priority</label>
+                    <select name="priority" id="priority">
+                        <option value="high" ${Complaint.priority == 'high' ? 'selected' : ''}>High</option>
+                        <option value="medium" ${Complaint.priority == 'medium' ? 'selected' : ''}>Medium</option>
+                        <option value="low" ${Complaint.priority == 'low' ? 'selected' : ''}>Low</option>
+                    </select>
+                </div>
 
-<form action="residentViewComplaints">
-<%-- <input type="hidden" name="userName" value="${sessionScope.userName}"> --%>
-	<input name="cancel" type="submit" value="Cancel">
-</form>
+                <div class="form-row">
+                    <input name="submitComplaint" type="submit" value="Submit" class="btn btn-primary">
+                    <input type="hidden" name="complaintId" value="${Complaint.complaintId}">
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

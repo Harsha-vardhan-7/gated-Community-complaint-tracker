@@ -84,4 +84,17 @@ public class ComplaintDAO {
 
 		return complaints;
 	}
+	
+	public List<Complaint> getComplaintsByStatus(String status){
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		
+		List<Complaint> complaintsByStatus = session.createQuery("FROM Complaint WHERE status= :status", Complaint.class)
+													.setParameter("status", status)
+													.getResultList();
+		
+		session.close();
+		
+		return complaintsByStatus;
+	}
 }

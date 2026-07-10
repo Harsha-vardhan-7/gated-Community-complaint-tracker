@@ -8,76 +8,49 @@
 <head>
 <meta charset="UTF-8">
 <title>View Complaints</title>
-<style>
-	table {
-		width: 100%;
-		border-collapse: collapse;
-	}
-	th, td {
-		padding: 10px;
-		text-align: left;
-	}
-	th {
-		background-color: #4CAF50;
-		color: white;
-	}
-	tr:nth-child(even) {
-		background-color: #f2f2f2;
-	}
-	.edit-link {
-		padding: 6px 10px;
-		background-color: #008CBA;
-		color: white;
-		text-decoration: none;
-		border-radius: 4px;
-	}
-	.edit-link:hover {
-		background-color: #007399;
-	}
-	.cancel-btn {
-		margin-top: 20px;
-		padding: 10px 20px;
-		background-color: #f44336;
-		color: white;
-		border: none;
-		border-radius: 4px;
-		cursor: pointer;
-	}
-	.cancel-btn:hover {
-		background-color: #da190b;
-	}
-</style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
 </head>
 <body>
+	<div class="container">
+        <header class="app-header">
+            <div class="app-brand">
+                <div class="logo">RH</div>
+                <div>
+                    <div class="app-title">My Complaints</div>
+                    <div class="app-meta">${sessionScope.userName}</div>
+                </div>
+            </div>
+			<div class="header-actions">
+				<form action="cancel"><input type="hidden" name="userName" value="${sessionScope.userName}"><input class="btn btn-secondary" type="submit" name="cancel" value="Back"></form>
+			</div>
+		</header>
 
-	<table border=1>
-	
-		<tr>
-			<th>Complaint ID</th>
-			<th>Category</th>
-			<th>Priority</th>
-			<th>Status</th>
-			<th>Edit </th>
-		</tr>
+		<div class="card">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Complaint ID</th>
+						<th>Category</th>
+						<th>Priority</th>
+						<th>Status</th>
+						<th>Edit</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${complaints}" var="complaint">
+						<tr>
+							<td>${complaint.complaintId}</td>
+							<td>${complaint.category}</td>
+							<td>${complaint.priority}</td>
+							<td><span class="badge ${complaint.status == 'Pending' ? 'pending' : (complaint.status == 'In Progress' ? 'inprogress' : (complaint.status == 'Resolved' ? 'resolved' : 'closed'))}">${complaint.status}</span></td>
+							<td><a class="link-btn" href="edit?complaintId=${complaint.complaintId}">Edit</a></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
 
-		<c:forEach items="${complaints}" var="complaint">
-			<tr>
-				<td>${complaint.complaintId}</td>
-				<td>${complaint.category}</td>
-				<td>${complaint.priority}</td>
-				<td>${complaint.status}</td>
-				<td><a class="edit-link" href="edit?complaintId=${complaint.complaintId}">
-						Edit </a></td>
-			</tr>
-		</c:forEach>
-		
-	</table>
-	
-	<p style="color: black;">${noComplaintsError}</p>
-
-	<form action="cancel">
-		<input type="hidden" name="userName" value="${sessionScope.userName}">
-		<input name="cancel" type="submit" value="Cancel" class="cancel-btn">
-	</form>
+			<p class="text-muted">${noComplaintsError}</p>
+		</div>
+	</div>
 </body>
 </html>
