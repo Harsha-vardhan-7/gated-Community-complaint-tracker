@@ -5,9 +5,6 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.DAO.LoginDAO;
-import com.entity.Resident;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,22 +13,25 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/raiseComplaint")
-public class RaiseComplaintServlet extends HttpServlet{
+public class RaiseComplaintServlet extends HttpServlet {
 
-	private static final Logger log =LoggerFactory.getLogger(RaiseComplaintServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(RaiseComplaintServlet.class);
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		log.debug("Entered into RaiseComplaintServlet");
+		log.trace("Entering RaiseComplaintServlet doGet method");
 
+		log.debug("Checking for an active user session");
 		HttpSession session = req.getSession(false);
-
 		if (session == null) {
-		    resp.sendRedirect("login");
-		    return;
+			log.warn("No active session found. Redirecting user to login page");
+			resp.sendRedirect("login");
+			return;
 		}
-		
+		log.debug("Active session found. Forwarding user to complaint filing page");
+
 		req.getRequestDispatcher("/WEB-INF/views/complaintfiling.jsp").forward(req, resp);
-		log.debug("RaiseComplaintServlet executed");
+		log.trace("RaiseComplaintServlet doGet method completed");
 	}
-	
+
 }

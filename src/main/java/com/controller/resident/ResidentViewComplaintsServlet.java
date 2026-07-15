@@ -1,7 +1,6 @@
 package com.controller.resident;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,7 +10,6 @@ import com.DAO.ComplaintDAO;
 import com.DAO.LoginDAO;
 import com.entity.Complaint;
 import com.entity.Resident;
-import com.enums.RoleEnum;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -27,46 +25,46 @@ public class ResidentViewComplaintsServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		log.trace("Entering ResidentViewComplaintsServlet");
+		log.trace("Entering ResidentViewComplaintsServlet doGet method");
 
+		log.debug("Checking for an active user session");
 		HttpSession session = req.getSession(false);
-
 		if (session == null) {
-			log.warn("No active session found. Redirecting user to login page.");
+			log.warn("No active session found. Redirecting user to login page");
 			resp.sendRedirect("login");
 			return;
 		}
 
-		log.debug("Fetching the mobile number of the resident");
+		log.debug("Active session found. Fetching resident mobile number from session");
 		String residentMobileNumber = (String) session.getAttribute("phoneNumber");
-		log.debug("Mobile number has fetched");
 
+		log.debug("Creating LoginDAO object and fetching resident details");
 		LoginDAO loginDAO = new LoginDAO();
 		Resident resident = loginDAO.getResidentDetails(residentMobileNumber);
-
 		if (resident == null) {
-			log.warn("No resident found for mobile number: {}. Redirecting to login page.", residentMobileNumber);
+			log.warn("No resident found for the mobile number stored in session. Redirecting to login page");
 			resp.sendRedirect("login");
 			return;
 		}
 
-		log.debug("Fetching the Resident Id using the mobile Number");
+		log.debug("Resident details fetched successfully. Resident ID: {}", resident.getResidentId());
 		int residentId = resident.getResidentId();
-		log.debug("Fetched the Resident Id");
 
+		log.debug("Creating ComplaintDAO object");
 		ComplaintDAO complaintDAO = new ComplaintDAO();
 
-		log.debug("Started fetching the complaints of the resident with Id: " + residentId);
+		log.debug("Fetching complaints for resident ID: {}", residentId);
 		List<Complaint> residentComplaints = complaintDAO.getComplaintsByResidentId(residentId);
-		log.debug("Fetching of all complaints has done");
-
-		if(residentComplaints.isEmpty()) {
+		log.info("Fetched {} complaints for resident ID: {}", residentComplaints.size(), residentId);
+		if (residentComplaints.isEmpty()) {
+			log.debug("No complaints found for resident ID: {}", residentId);
 			req.setAttribute("noComplaintsError", "No Complaints present");
 		}
-		
+
+		log.debug("Setting resident complaints as request attribute");
 		req.setAttribute("complaints", residentComplaints);
 
-		log.debug("Forwarding to the residentviewcomplaints.jsp file");
+		log.debug("Forwarding request to resident complaints page");
 		req.getRequestDispatcher("/WEB-INF/views/residentviewcomplaints.jsp").forward(req, resp);
 	}
 }
